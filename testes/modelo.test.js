@@ -22,4 +22,23 @@ test('Testando cadastro de três perguntas', () => {
   expect(perguntas[1].texto).toBe('2 + 2 = ?');
   expect(perguntas[2].num_respostas).toBe(0);
   expect(perguntas[1].id_pergunta).toBe(perguntas[2].id_pergunta-1);
+  console.log(perguntas[0].id_pergunta)
 });
+
+test('Testando cadastro de repostas', () => {
+  modelo.cadastrar_pergunta('1 + 1 = ?');
+  const perguntas = modelo.listar_perguntas();
+  const pergunta = modelo.get_pergunta(perguntas[0].id_pergunta)
+  expect(pergunta.texto).toBe('1 + 1 = ?');
+  modelo.cadastrar_resposta(pergunta.id_pergunta, 'matemático: 2!');
+  modelo.cadastrar_resposta(pergunta.id_pergunta, 'estatístico: algo entre 0,99 e 1,01');
+  modelo.cadastrar_resposta(pergunta.id_pergunta, 'físico: soma vetorial, tensorial ou escalar?');
+  modelo.cadastrar_resposta(pergunta.id_pergunta, 'engenheiro: coloca 3 que aguenta');
+  modelo.cadastrar_resposta(pergunta.id_pergunta, 'cientista da computação: 10');
+  expect(modelo.get_num_respostas(pergunta.id_pergunta)).toBe(5);
+  const respostas = modelo.get_respostas(pergunta.id_pergunta)
+  expect(respostas[0].texto).toBe('matemático: 2!');
+  expect(respostas[4].texto).toBe('cientista da computação: 10');
+});
+
+
